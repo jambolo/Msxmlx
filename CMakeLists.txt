@@ -35,6 +35,7 @@ set(SOURCES
     
     Msxmlx.cpp
 )
+source_group(Sources FILE ${SOURCES})
 
 add_library(${PROJECT_NAME} ${SOURCES})
 target_compile_definitions(${PROJECT_NAME}
@@ -42,9 +43,9 @@ target_compile_definitions(${PROJECT_NAME}
         -DNOMINMAX
         -DWIN32_LEAN_AND_MEAN
         -DVC_EXTRALEAN
-#        -D_CRT_SECURE_NO_WARNINGS
-#        -D_SECURE_SCL=0
-#        -D_SCL_SECURE_NO_WARNINGS
+        -D_CRT_SECURE_NO_WARNINGS
+        -D_SECURE_SCL=0
+        -D_SCL_SECURE_NO_WARNINGS
 )
 target_include_directories(${PROJECT_NAME} PUBLIC ${PUBLIC_INCLUDE_PATHS} PRIVATE ${PRIVATE_INCLUDE_PATHS})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)

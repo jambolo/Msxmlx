@@ -5,6 +5,8 @@
 
 #include <atlbase.h>
 #include <atlcomcli.h>
+#include <cstdint>
+#include <functional>
 #include <msxml2.h>
 #include <string>
 
@@ -16,10 +18,10 @@ namespace Msxmlx
 /*												N A V I G A T I O N													*/
 /********************************************************************************************************************/
 
-//! Returns @c true if the node is an element node.
+//! Returns true if the node is an element node.
 bool IsElementNode(IXMLDOMNode * pNode);
 
-//! Returns @c true if the node is the specified type.
+//! Returns true if the node is the specified type.
 bool IsNodeType(IXMLDOMNode * pNode, DOMNodeType type);
 
 //! Returns the named sub-element, or NULL if error or not found.
@@ -60,10 +62,10 @@ int GetIntAttribute(IXMLDOMElement * pElement, char const * sName, int iDefault 
 int GetIntAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, int iDefault = 0);
 
 //! Returns the value of an integer attribute (or a default value, if the attribute is not present).
-uint32 GetHexAttribute(IXMLDOMElement * pElement, char const * sName, uint32 iDefault = 0);
+uint32_t GetHexAttribute(IXMLDOMElement * pElement, char const * sName, uint32_t iDefault = 0);
 
 //! Returns the value of an integer attribute (or a default value, if the attribute is not present).
-uint32 GetHexAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, uint32 iDefault = 0);
+uint32_t GetHexAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, uint32_t iDefault = 0);
 
 //! Returns the value of an integer attribute (or a default value, if the attribute is not present).
 bool GetBoolAttribute(IXMLDOMElement * pElement, char const * sName, bool bDefault = false);
@@ -88,7 +90,7 @@ float GetFloatSubElement(IXMLDOMElement * pElement, char const * sName, float fD
 int GetIntSubElement(IXMLDOMElement * pElement, char const * sName, int iDefault = 0);
 
 //! Returns the value of an integer sub-element (or a default value, if the sub-element is not present).
-uint32 GetHexSubElement(IXMLDOMElement * pElement, char const * sName, uint32 iDefault = 0);
+uint32_t GetHexSubElement(IXMLDOMElement * pElement, char const * sName, uint32_t iDefault = 0);
 
 //! Returns the value of an integer sub-element (or a default value, if the sub-element is not present).
 bool GetBoolSubElement(IXMLDOMElement * pElement, char const * sName, bool bDefault = false);
@@ -107,7 +109,7 @@ bool GetBoolSubElement(IXMLDOMElement * pElement, char const * sName, bool bDefa
 //!
 //! @return		@c false if the enumeration should be aborted
 
-using ForEachNodeCB = bool (*)(IXMLDOMNode * pNode, uint32 context);
+using ForEachNodeCB = std::function<bool(IXMLDOMNode * pElement, uintptr_t context)>;
 
 //! Callback function prototype for ForEachSubElement().
 //!
@@ -118,19 +120,19 @@ using ForEachNodeCB = bool (*)(IXMLDOMNode * pNode, uint32 context);
 //!
 //! @return		@c false if the enumeration should be aborted
 
-using ForEachElementCB = bool (*)(IXMLDOMElement * pElement, uint32 context);
+using ForEachElementCB = std::function<bool(IXMLDOMElement * pElement, uintptr_t context)>;
 
-//! Calls a function for each node in the list and returns @c false if the function was aborted.
-bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB callback, uint32 context = 0);
+//! Calls a function for each node in the list and returns false if the function was aborted.
+bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB callback, uintptr_t context = 0);
 
-//! Calls a function for each element in the list and returns @c false if the function was aborted.
-bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB callback, uint32 context /* = 0*/);
+//! Calls a function for each element in the list and returns false if the function was aborted.
+bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB callback, uintptr_t context /* = 0*/);
 
-//! Calls a function for each subnode and returns @c false if the function was aborted.
-bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB callback, uint32 context = 0);
+//! Calls a function for each subnode and returns false if the function was aborted.
+bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB callback, uintptr_t context = 0);
 
-//! Calls a function for each element subnode and returns @c false if the function was aborted.
-bool ForEachSubElement(IXMLDOMNode * pNode, ForEachElementCB callback, uint32 context = 0);
+//! Calls a function for each element subnode and returns false if the function was aborted.
+bool ForEachSubElement(IXMLDOMNode * pNode, ForEachElementCB callback, uintptr_t context = 0);
 } // namespace Msxmlx
 
 #endif // !defined(MSXMLX_MSXMLX_H)

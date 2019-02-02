@@ -1,13 +1,11 @@
-// #include "PrecompiledHeaders.h"
-
 #include "Msxmlx.h"
 
 namespace Msxmlx
 {
-//! @param	pNode		The node in question
-//! @param	type		The type to test for
+//! @param    pNode        The node in question
+//! @param    type        The type to test for
 //!
-//! @return				@c true, if the node has the specified type
+//! @return                true, if the node has the specified type
 
 bool IsNodeType(IXMLDOMNode * pNode, DOMNodeType type)
 {
@@ -19,9 +17,9 @@ bool IsNodeType(IXMLDOMNode * pNode, DOMNodeType type)
     return nodeType == type;
 }
 
-//! @param	pNode		The node in question
+//! @param    pNode        The node in question
 //!
-//! @return				@c true, if the node has the type NODE_ELEMENT
+//! @return                true, if the node has the type NODE_ELEMENT
 
 bool IsElementNode(IXMLDOMNode * pNode)
 {
@@ -30,11 +28,11 @@ bool IsElementNode(IXMLDOMNode * pNode)
 
 //! This function returns the named sub-element. If the sub-element does not exist or there is an error, NULL is
 //! returned.
-//! @param	pElement		Element node to query
-//! @param	sName			Name of the sub-node
-//! @param	ppResult		Location to put the element pointer or NULL.
+//! @param    pElement        Element node to query
+//! @param    sName            Name of the sub-node
+//! @param    ppResult        Location to put the element pointer or NULL.
 //!
-//! @return		The HRESULT, generally S_OK if everything is ok and S_FAIL if the named node was not found.
+//! @return        The HRESULT, generally S_OK if everything is ok and S_FAIL if the named node was not found.
 
 HRESULT GetSubElement(IXMLDOMElement * pElement, char const * sName, IXMLDOMElement ** ppResult)
 {
@@ -42,11 +40,11 @@ HRESULT GetSubElement(IXMLDOMElement * pElement, char const * sName, IXMLDOMElem
     CComPtr<IXMLDOMNodeList> pNodeList;
     CComPtr<IXMLDOMNode>     pSubNode;
 
-    *ppResult = NULL;
+    *ppResult = nullptr;
 
     hr = pElement->get_childNodes(&pNodeList);
 
-    for (pNodeList->nextNode(&pSubNode); pSubNode != NULL; pNodeList->nextNode(&pSubNode))
+    for (pNodeList->nextNode(&pSubNode); pSubNode; pNodeList->nextNode(&pSubNode))
     {
         if (IsElementNode(pSubNode))
         {
@@ -68,11 +66,11 @@ HRESULT GetSubElement(IXMLDOMElement * pElement, char const * sName, IXMLDOMElem
     return S_FALSE;
 }
 
-//! @param	pElement		Element node to query
-//! @param	sName			Name of the sub-element
-//! @param	ppAttributes	Location to put the attributes pointer, or NULL if there is an error.
+//! @param    pElement        Element node to query
+//! @param    sName            Name of the sub-element
+//! @param    ppAttributes    Location to put the attributes pointer, or NULL if there is an error.
 //!
-//! @return		The HRESULT, generally S_OK if everything is ok and S_FAIL if the named element was not found.
+//! @return        The HRESULT, generally S_OK if everything is ok and S_FAIL if the named element was not found.
 
 HRESULT GetSubElementAttributes(IXMLDOMElement *       pElement,
                                 char const *           sName,
@@ -86,16 +84,16 @@ HRESULT GetSubElementAttributes(IXMLDOMElement *       pElement,
     if (pSubElement)
         hr = pSubElement->get_attributes(ppAttributes);
     else
-        *ppAttributes = NULL;
+        *ppAttributes = nullptr;
 
     return hr;
 }
 
-//! @param	pElement		Element node to query
-//! @param	sName			Name of the sub-element
-//! @param	pValue			Location to put the value.
+//! @param    pElement        Element node to query
+//! @param    sName            Name of the sub-element
+//! @param    pValue            Location to put the value.
 //!
-//! @return		The HRESULT, generally S_OK if everything is ok and S_FAIL if the named element was not found.
+//! @return        The HRESULT, generally S_OK if everything is ok and S_FAIL if the named element was not found.
 
 HRESULT GetSubElementValue(IXMLDOMElement * pElement, char const * sName, VARIANT * pValue)
 {
@@ -111,7 +109,7 @@ HRESULT GetSubElementValue(IXMLDOMElement * pElement, char const * sName, VARIAN
 
         hr = pSubElement->get_childNodes(&pNodeList);
 
-        for (pNodeList->nextNode(&pSubNode); pSubNode != NULL; pNodeList->nextNode(&pSubNode))
+        for (pNodeList->nextNode(&pSubNode); pSubNode; pNodeList->nextNode(&pSubNode))
         {
             if (IsNodeType(pSubNode, NODE_TEXT))
             {
@@ -126,12 +124,12 @@ HRESULT GetSubElementValue(IXMLDOMElement * pElement, char const * sName, VARIAN
     return hr;
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the attribute to get
-//! @param	sDefault		Value to return if the attribute is not present. The default default value is an empty
-//!							string.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the attribute to get
+//! @param    sDefault        Value to return if the attribute is not present. The default default value is an empty
+//!                            string.
 //!
-//! @return		The value of the attribute (coerced to a string, if necessary)
+//! @return        The value of the attribute (coerced to a string, if necessary)
 
 std::string GetStringAttribute(IXMLDOMElement * pElement, char const * sName, char const * sDefault /* = ""*/)
 {
@@ -152,12 +150,12 @@ std::string GetStringAttribute(IXMLDOMElement * pElement, char const * sName, ch
     }
 }
 
-//! @param	pAttributes		Attribute list
-//! @param	sName			Name of the attribute to get
-//! @param	sDefault		Value to return if the attribute is not present. The default default value is an empty
-//!							string.
+//! @param    pAttributes        Attribute list
+//! @param    sName            Name of the attribute to get
+//! @param    sDefault        Value to return if the attribute is not present. The default default value is an empty
+//!                            string.
 //!
-//! @return		The value of the attribute (coerced to a string, if necessary)
+//! @return        The value of the attribute (coerced to a string, if necessary)
 
 std::string GetStringAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, char const * sDefault /* = ""*/)
 {
@@ -180,11 +178,11 @@ std::string GetStringAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * s
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the attribute to get
-//! @param	fDefault		Value to return if the attribute is not present. The default default value is 0.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the attribute to get
+//! @param    fDefault        Value to return if the attribute is not present. The default default value is 0.
 //!
-//! @return		The value of the attribute (coerced to a float, if necessary)
+//! @return        The value of the attribute (coerced to a float, if necessary)
 
 float GetFloatAttribute(IXMLDOMElement * pElement, char const * sName, float fDefault /* = 0.f*/)
 {
@@ -204,11 +202,11 @@ float GetFloatAttribute(IXMLDOMElement * pElement, char const * sName, float fDe
     }
 }
 
-//! @param	pAttributes		Attribute list
-//! @param	sName			Name of the attribute to get
-//! @param	fDefault		Value to return if the attribute is not present. The default default value is 0.
+//! @param    pAttributes        Attribute list
+//! @param    sName            Name of the attribute to get
+//! @param    fDefault        Value to return if the attribute is not present. The default default value is 0.
 //!
-//! @return		The value of the attribute (coerced to a float, if necessary)
+//! @return        The value of the attribute (coerced to a float, if necessary)
 
 float GetFloatAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, float fDefault /* = 0.f*/)
 {
@@ -230,12 +228,12 @@ float GetFloatAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, f
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the attribute to get
-//! @param	iDefault		Value to return if the attribute is not present. The default default value is 0.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the attribute to get
+//! @param    iDefault        Value to return if the attribute is not present. The default default value is 0.
 //!
-//! @return		The value of the attribute (coerced to an int, if necessary), or the default value if the attribute
-//!				is not present.
+//! @return        The value of the attribute (coerced to an int, if necessary), or the default value if the attribute
+//!                is not present.
 
 int GetIntAttribute(IXMLDOMElement * pElement, char const * sName, int iDefault /* = 0*/)
 {
@@ -255,12 +253,12 @@ int GetIntAttribute(IXMLDOMElement * pElement, char const * sName, int iDefault 
     }
 }
 
-//! @param	pAttributes		Attribute list
-//! @param	sName			Name of the attribute to get
-//! @param	iDefault		Value to return if the attribute is not present. The default default value is 0.
+//! @param    pAttributes        Attribute list
+//! @param    sName            Name of the attribute to get
+//! @param    iDefault        Value to return if the attribute is not present. The default default value is 0.
 //!
-//! @return		The value of the attribute (coerced to an int, if necessary), or the default value if the attribute
-//!				is not present.
+//! @return        The value of the attribute (coerced to an int, if necessary), or the default value if the attribute
+//!                is not present.
 
 int GetIntAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, int iDefault /* = 0*/)
 {
@@ -282,14 +280,14 @@ int GetIntAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, int i
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the attribute to get
-//! @param	iDefault		Value to return if the attribute is not present. The default default value is 0.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the attribute to get
+//! @param    iDefault        Value to return if the attribute is not present. The default default value is 0.
 //!
-//! @return		The value of the attribute (coerced to an unsigned int, if necessary), or the default value if the
-//!				attribute is not present.
+//! @return        The value of the attribute (coerced to an unsigned int, if necessary), or the default value if the
+//!                attribute is not present.
 
-uint32 GetHexAttribute(IXMLDOMElement * pElement, char const * sName, uint32 iDefault /* = 0*/)
+uint32_t GetHexAttribute(IXMLDOMElement * pElement, char const * sName, uint32_t iDefault /* = 0*/)
 {
     HRESULT     hr;
     CComVariant value;
@@ -306,14 +304,14 @@ uint32 GetHexAttribute(IXMLDOMElement * pElement, char const * sName, uint32 iDe
     }
 }
 
-//! @param	pAttributes		Attribute list
-//! @param	sName			Name of the attribute to get
-//! @param	iDefault		Value to return if the attribute is not present. The default default value is 0.
+//! @param    pAttributes        Attribute list
+//! @param    sName            Name of the attribute to get
+//! @param    iDefault        Value to return if the attribute is not present. The default default value is 0.
 //!
-//! @return		The value of the attribute (coerced to an unsigned int, if necessary), or the default value if the
-//!				attribute is not present.
+//! @return        The value of the attribute (coerced to an unsigned int, if necessary), or the default value if the
+//!                attribute is not present.
 
-uint32 GetHexAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, uint32 iDefault /* = 0*/)
+uint32_t GetHexAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, uint32_t iDefault /* = 0*/)
 {
     HRESULT hr;
     CComPtr<IXMLDOMNode> pAttribute;
@@ -333,12 +331,12 @@ uint32 GetHexAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, ui
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the attribute to get
-//! @param	bDefault		Value to return if the attribute is not present. The default default value is @c false.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the attribute to get
+//! @param    bDefault        Value to return if the attribute is not present. The default default value is false.
 //!
-//! @return		The value of the attribute (coerced to a bool, if necessary), or the default value if the
-//!				attribute is not present.
+//! @return        The value of the attribute (coerced to a bool, if necessary), or the default value if the
+//!                attribute is not present.
 
 bool GetBoolAttribute(IXMLDOMElement * pElement, char const * sName, bool bDefault /* = false*/)
 {
@@ -358,12 +356,12 @@ bool GetBoolAttribute(IXMLDOMElement * pElement, char const * sName, bool bDefau
     }
 }
 
-//! @param	pAttributes		Attribute list
-//! @param	sName			Name of the attribute to get
-//! @param	bDefault		Value to return if the attribute is not present. The default default value is @c false.
+//! @param    pAttributes        Attribute list
+//! @param    sName            Name of the attribute to get
+//! @param    bDefault        Value to return if the attribute is not present. The default default value is false.
 //!
-//! @return		The value of the attribute (coerced to an bool, if necessary), or the default value if the
-//!				attribute is not present.
+//! @return        The value of the attribute (coerced to an bool, if necessary), or the default value if the
+//!                attribute is not present.
 
 bool GetBoolAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, bool bDefault /* = false*/)
 {
@@ -385,12 +383,12 @@ bool GetBoolAttribute(IXMLDOMNamedNodeMap * pAttributes, char const * sName, boo
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the sub-element to get
-//! @param	sDefault		Value to return if the sub-element is not present. The default default value is an empty
-//!							string.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the sub-element to get
+//! @param    sDefault        Value to return if the sub-element is not present. The default default value is an empty
+//!                            string.
 //!
-//! @return		The value of the sub-element (coerced to a string, if necessary)
+//! @return        The value of the sub-element (coerced to a string, if necessary)
 
 std::string GetStringSubElement(IXMLDOMElement * pElement, char const * sName, char const * sDefault /* = ""*/)
 {
@@ -411,11 +409,11 @@ std::string GetStringSubElement(IXMLDOMElement * pElement, char const * sName, c
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the sub-element to get
-//! @param	fDefault		Value to return if the sub-element is not present. The default default value is 0.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the sub-element to get
+//! @param    fDefault        Value to return if the sub-element is not present. The default default value is 0.
 //!
-//! @return		The value of the sub-element (coerced to a float, if necessary)
+//! @return        The value of the sub-element (coerced to a float, if necessary)
 
 float GetFloatSubElement(IXMLDOMElement * pElement, char const * sName, float fDefault /* = 0.f*/)
 {
@@ -435,12 +433,12 @@ float GetFloatSubElement(IXMLDOMElement * pElement, char const * sName, float fD
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the sub-element to get
-//! @param	iDefault		Value to return if the sub-element is not present. The default default value is 0.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the sub-element to get
+//! @param    iDefault        Value to return if the sub-element is not present. The default default value is 0.
 //!
-//! @return		The value of the sub-element (coerced to an int, if necessary), or the default value if the sub-element
-//!				is not present.
+//! @return        The value of the sub-element (coerced to an int, if necessary), or the default value if the sub-element
+//!                is not present.
 
 int GetIntSubElement(IXMLDOMElement * pElement, char const * sName, int iDefault /* = 0*/)
 {
@@ -460,14 +458,14 @@ int GetIntSubElement(IXMLDOMElement * pElement, char const * sName, int iDefault
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the sub-element to get
-//! @param	iDefault		Value to return if the sub-element is not present. The default default value is 0.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the sub-element to get
+//! @param    iDefault        Value to return if the sub-element is not present. The default default value is 0.
 //!
-//! @return		The value of the sub-element (coerced to an unsigned int, if necessary), or the default value if the
-//!				sub-element is not present.
+//! @return        The value of the sub-element (coerced to an unsigned int, if necessary), or the default value if the
+//!                sub-element is not present.
 
-uint32 GetHexSubElement(IXMLDOMElement * pElement, char const * sName, uint32 iDefault /* = 0*/)
+uint32_t GetHexSubElement(IXMLDOMElement * pElement, char const * sName, uint32_t iDefault /* = 0*/)
 {
     HRESULT     hr;
     CComVariant value;
@@ -484,12 +482,12 @@ uint32 GetHexSubElement(IXMLDOMElement * pElement, char const * sName, uint32 iD
     }
 }
 
-//! @param	pElement		Element to query
-//! @param	sName			Name of the sub-element to get
-//! @param	bDefault		Value to return if the sub-element is not present. The default default value is @c false.
+//! @param    pElement        Element to query
+//! @param    sName            Name of the sub-element to get
+//! @param    bDefault        Value to return if the sub-element is not present. The default default value is false.
 //!
-//! @return		The value of the sub-element (coerced to a bool, if necessary), or the default value if the
-//!				sub-element is not present.
+//! @return        The value of the sub-element (coerced to a bool, if necessary), or the default value if the
+//!                sub-element is not present.
 
 bool GetBoolSubElement(IXMLDOMElement * pElement, char const * sName, bool bDefault /* = false*/)
 {
@@ -509,47 +507,47 @@ bool GetBoolSubElement(IXMLDOMElement * pElement, char const * sName, bool bDefa
     }
 }
 
-//! This function calls the specified callback function for each node in the specified node list. If @c false is
-//! returned, then the callback function aborted the enumeration process.
+//! This function calls the specified function for each node in the specified node list. If false is
+//! returned, then the function aborted the enumeration process.
 //!
-//! @param	pNodeList	The node list to be enumerated.
-//! @param	callback	The function to call for each node. See Msxmlx::ForEachNodeCB.
-//! @param	context		A value that is passed to the callback function.
+//! @param    pNodeList   The node list to be enumerated.
+//! @param    f           The function to call for each node. See Msxmlx::ForEachNodeCB.
+//! @param    context     A value that is passed to the function.
 //!
-//! @return		@c false if the callback function aborted the enumeration.
+//! @return        false if the function aborted the enumeration.
 
-bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB callback, uint32 context /* = 0*/)
+bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB f, uintptr_t context /* = 0*/)
 {
     bool bContinue = true;
     CComPtr<IXMLDOMNode> pNode;
 
-    for (pNodeList->nextNode(&pNode); pNode != NULL && bContinue; pNodeList->nextNode(&pNode))
+    for (pNodeList->nextNode(&pNode); pNode && bContinue; pNodeList->nextNode(&pNode))
     {
-        bContinue = callback(pNode, context);
+        bContinue = f(pNode, context);
         pNode.Release();
     }
 
     return bContinue;
 }
 
-//! This function calls the specified callback function for each element node in the specified node list. If
-//! @c false is returned, then the callback function aborted the enumeration process.
+//! This function calls the specified function for each element node in the specified node list. If
+//! false is returned, then the function aborted the enumeration process.
 //!
-//! @param	pNodeList	The node whose subnodes are to be enumerated.
-//! @param	callback	The function to call for each element. See Msxmlx::ForEachElementCB.
-//! @param	context		A value that is passed to the callback function.
+//! @param    pNodeList    The node whose subnodes are to be enumerated.
+//! @param    f    The function to call for each element. See Msxmlx::ForEachElementCB.
+//! @param    context        A value that is passed to the function.
 //!
-//! @return		@c false if the callback function aborted the enumeration.
+//! @return        false if the function aborted the enumeration.
 
-bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB callback, uint32 context /* = 0*/)
+bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB f, uintptr_t context /* = 0*/)
 {
     bool bContinue = true;
     CComPtr<IXMLDOMNode> pNode;
 
-    for (pNodeList->nextNode(&pNode); pNode != NULL && bContinue; pNodeList->nextNode(&pNode))
+    for (pNodeList->nextNode(&pNode); pNode && bContinue; pNodeList->nextNode(&pNode))
     {
         if (IsElementNode(pNode))
-            bContinue = callback(CComQIPtr<IXMLDOMElement>(pNode), context);
+            bContinue = f(CComQIPtr<IXMLDOMElement>(pNode), context);
 
         pNode.Release();
     }
@@ -557,52 +555,52 @@ bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB callback, uint
     return bContinue;
 }
 
-//! This function calls the specified callback function for each subnode of the specified node. If @c false is
-//! returned, then the callback function aborted the enumeration process.
+//! This function calls the specified function for each subnode of the specified node. If false is
+//! returned, then the function aborted the enumeration process.
 //!
-//! @param	pNode		The node whose subnodes are to be enumerated.
-//! @param	callback	The function to call for each subnode. See Msxmlx::ForEachNodeCB.
-//! @param	context		A value that is passed to the callback function.
+//! @param    pNode        The node whose subnodes are to be enumerated.
+//! @param    f    The function to call for each subnode. See Msxmlx::ForEachNodeCB.
+//! @param    context        A value that is passed to the function.
 //!
-//! @return		@c false, if the callback function aborted the enumeration.
+//! @return        false, if the function aborted the enumeration.
 
-bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB callback, uint32 context /* = 0*/)
+bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB f, uintptr_t context /* = 0*/)
 {
     HRESULT hr;
     CComPtr<IXMLDOMNodeList> pSubNodeList;
 
     hr = pNode->get_childNodes(&pSubNodeList);
 
-    return ForEachNode(pSubNodeList, callback, context);
+    return ForEachNode(pSubNodeList, f, context);
 }
 
-//! This function calls the specified callback function for each element subnode of the specified node. If @c false
-//! is returned, then the callback function aborted the enumeration process.
+//! This function calls the specified function for each element subnode of the specified node. If false
+//! is returned, then the function aborted the enumeration process.
 //!
-//! @param	pNode		The node whose subnodes are to be enumerated.
-//! @param	callback	The function to call for each subnode. See Msxmlx::ForEachElementCB.
-//! @param	context		A value that is passed to the callback function.
+//! @param    pNode        The node whose subnodes are to be enumerated.
+//! @param    f    The function to call for each subnode. See Msxmlx::ForEachElementCB.
+//! @param    context        A value that is passed to the function.
 //!
-//! @return		@c false, if the callback function aborted the enumeration.
+//! @return        false, if the function aborted the enumeration.
 
-bool ForEachSubElement(IXMLDOMNode * pNode, ForEachElementCB callback, uint32 context /* = 0*/)
+bool ForEachSubElement(IXMLDOMNode * pNode, ForEachElementCB f, uintptr_t context /* = 0*/)
 {
     HRESULT hr;
     CComPtr<IXMLDOMNodeList> pSubNodeList;
 
     hr = pNode->get_childNodes(&pSubNodeList);
 
-    return ForEachElement(pSubNodeList, callback, context);
+    return ForEachElement(pSubNodeList, f, context);
 }
 
 //! This function creates an element with the given name containing a single text sub-node with the given value.
 //!
-//! @param	pDocument		Document containing the node
-//! @param	sName			Name of the node
-//! @param	value			Value of the text
-//! @param	ppResult		Where to put the created node
+//! @param    pDocument        Document containing the node
+//! @param    sName            Name of the node
+//! @param    value            Value of the text
+//! @param    ppResult        Where to put the created node
 //!
-//! @return		The HRESULT, generally S_OK if everything is ok and S_FAIL if the node could not be created.
+//! @return        The HRESULT, generally S_OK if everything is ok and S_FAIL if the node could not be created.
 
 HRESULT CreateTextElement(IXMLDOMDocument2 * pDocument,
                           char const * sName, VARIANT const & value,
