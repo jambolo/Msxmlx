@@ -105,34 +105,32 @@ bool GetBoolSubElement(IXMLDOMElement * pElement, char const * sName, bool bDefa
 //! the node list.
 //!
 //! @param	pNode		Node
-//! @param	context		Supplied from a parameter.
 //!
 //! @return		@c false if the enumeration should be aborted
 
-using ForEachNodeCB = std::function<bool(IXMLDOMNode * pElement, uintptr_t context)>;
+using ForEachNodeCB = std::function<bool(IXMLDOMNode * pElement)>;
 
 //! Callback function prototype for ForEachSubElement().
 //!
 //! This function is called by ForEachSubElement() for each element subnode of a node.
 //!
-//! @param	pNode		Subnode
-//! @param	context		Supplied from a parameter.
+//! @param	pElement    Element
 //!
 //! @return		@c false if the enumeration should be aborted
 
-using ForEachElementCB = std::function<bool(IXMLDOMElement * pElement, uintptr_t context)>;
+using ForEachElementCB = std::function<bool(IXMLDOMElement * pElement)>;
 
 //! Calls a function for each node in the list and returns false if the function was aborted.
-bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB callback, uintptr_t context = 0);
+bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB f);
 
 //! Calls a function for each element in the list and returns false if the function was aborted.
-bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB callback, uintptr_t context /* = 0*/);
+bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB f);
 
 //! Calls a function for each subnode and returns false if the function was aborted.
-bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB callback, uintptr_t context = 0);
+bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB f);
 
 //! Calls a function for each element subnode and returns false if the function was aborted.
-bool ForEachSubElement(IXMLDOMNode * pNode, ForEachElementCB callback, uintptr_t context = 0);
+bool ForEachSubElement(IXMLDOMNode * pNode, ForEachElementCB f);
 } // namespace Msxmlx
 
 #endif // !defined(MSXMLX_MSXMLX_H)

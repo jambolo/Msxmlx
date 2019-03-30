@@ -516,14 +516,14 @@ bool GetBoolSubElement(IXMLDOMElement * pElement, char const * sName, bool bDefa
 //!
 //! @return        false if the function aborted the enumeration.
 
-bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB f, uintptr_t context /* = 0*/)
+bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB f)
 {
     bool bContinue = true;
     CComPtr<IXMLDOMNode> pNode;
 
     for (pNodeList->nextNode(&pNode); pNode && bContinue; pNodeList->nextNode(&pNode))
     {
-        bContinue = f(pNode, context);
+        bContinue = f(pNode);
         pNode.Release();
     }
 
@@ -539,7 +539,7 @@ bool ForEachNode(IXMLDOMNodeList * pNodeList, ForEachNodeCB f, uintptr_t context
 //!
 //! @return        false if the function aborted the enumeration.
 
-bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB f, uintptr_t context /* = 0*/)
+bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB f)
 {
     bool bContinue = true;
     CComPtr<IXMLDOMNode> pNode;
@@ -547,7 +547,7 @@ bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB f, uintptr_t c
     for (pNodeList->nextNode(&pNode); pNode && bContinue; pNodeList->nextNode(&pNode))
     {
         if (IsElementNode(pNode))
-            bContinue = f(CComQIPtr<IXMLDOMElement>(pNode), context);
+            bContinue = f(CComQIPtr<IXMLDOMElement>(pNode));
 
         pNode.Release();
     }
@@ -564,14 +564,14 @@ bool ForEachElement(IXMLDOMNodeList * pNodeList, ForEachElementCB f, uintptr_t c
 //!
 //! @return        false, if the function aborted the enumeration.
 
-bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB f, uintptr_t context /* = 0*/)
+bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB f)
 {
     HRESULT hr;
     CComPtr<IXMLDOMNodeList> pSubNodeList;
 
     hr = pNode->get_childNodes(&pSubNodeList);
 
-    return ForEachNode(pSubNodeList, f, context);
+    return ForEachNode(pSubNodeList, f);
 }
 
 //! This function calls the specified function for each element subnode of the specified node. If false
@@ -583,14 +583,14 @@ bool ForEachSubNode(IXMLDOMNode * pNode, ForEachNodeCB f, uintptr_t context /* =
 //!
 //! @return        false, if the function aborted the enumeration.
 
-bool ForEachSubElement(IXMLDOMNode * pNode, ForEachElementCB f, uintptr_t context /* = 0*/)
+bool ForEachSubElement(IXMLDOMNode * pNode, ForEachElementCB f)
 {
     HRESULT hr;
     CComPtr<IXMLDOMNodeList> pSubNodeList;
 
     hr = pNode->get_childNodes(&pSubNodeList);
 
-    return ForEachElement(pSubNodeList, f, context);
+    return ForEachElement(pSubNodeList, f);
 }
 
 //! This function creates an element with the given name containing a single text sub-node with the given value.
